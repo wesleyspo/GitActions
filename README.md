@@ -38,6 +38,26 @@ Este repositório demonstra diversos conceitos e funcionalidades do GitHub Actio
    - Conceitos: environments, deployment URLs
    - Pipeline: development → staging → production
 
+## 📦 Aplicação de Exemplo
+
+Este repositório inclui uma aplicação Node.js simples para demonstrar os workflows em ação.
+
+### Executar Localmente
+
+```bash
+# Executar a aplicação
+node index.js
+
+# Executar testes
+npm test
+
+# Executar linting
+npm run lint
+
+# Executar build
+npm run build
+```
+
 ## 🚀 Como Usar
 
 ### Visualizar Workflows
