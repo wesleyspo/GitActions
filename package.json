@@ -1,0 +1,19 @@
+{
+  "name": "gitactions-training",
+  "version": "1.0.0",
+  "description": "GitHub Actions training repository with example workflows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"✅ Tests passed!\" && exit 0",
+    "lint": "echo \"🔍 Linting complete!\" && exit 0",
+    "build": "echo \"🔨 Build successful!\" && exit 0"
+  },
+  "keywords": [
+    "github-actions",
+    "training",
+    "ci-cd",
+    "devops"
+  ],
+  "author": "",
+  "license": "MIT"
+}
