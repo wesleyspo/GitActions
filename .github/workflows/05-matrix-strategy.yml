@@ -1,0 +1,74 @@
+name: 05 - Matrix Strategy
+
+# This workflow demonstrates matrix strategy for testing across multiple versions/platforms
+on:
+  push:
+    branches: [ main, master, 'copilot/**' ]
+  workflow_dispatch:
+
+jobs:
+  test-matrix:
+    name: Test on ${{ matrix.os }} with Node ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20, 22]
+      # Continue running other matrix jobs even if one fails
+      fail-fast: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Display environment
+        run: |
+          echo "🖥️  OS: ${{ matrix.os }}"
+          echo "📦 Node version: ${{ matrix.node-version }}"
+          node --version
+          npm --version
+
+      - name: Run tests
+        run: |
+          echo "Running tests on ${{ runner.os }} with Node ${{ matrix.node-version }}"
+          echo "✅ Tests passed!"
+
+  test-include:
+    name: Test with custom configurations
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [20]
+        # Include additional custom configurations
+        include:
+          - os: ubuntu-latest
+            node-version: 20
+            experimental: true
+            label: 'Experimental Features'
+          - os: windows-latest
+            node-version: 18
+            experimental: false
+            label: 'Windows LTS'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Display configuration
+        run: |
+          echo "Label: ${{ matrix.label }}"
+          echo "Experimental: ${{ matrix.experimental }}"
+          echo "✅ Configuration test complete!"

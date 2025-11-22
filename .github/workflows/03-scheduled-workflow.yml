@@ -1,0 +1,39 @@
+name: 03 - Scheduled Workflow
+
+# This workflow demonstrates scheduled execution using cron
+# Runs automatically at specified times
+on:
+  schedule:
+    # Runs every day at 9:00 AM UTC
+    - cron: '0 9 * * *'
+  # Also allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  scheduled-job:
+    name: Scheduled Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run scheduled task
+        run: |
+          echo "⏰ Running scheduled task at $(date)"
+          echo "This workflow runs automatically every day at 9:00 AM UTC"
+
+      - name: Check system status
+        run: |
+          echo "System Information:"
+          echo "==================="
+          uname -a
+          echo ""
+          echo "Disk Usage:"
+          df -h
+          echo ""
+          echo "Memory Usage:"
+          free -h
+
+      - name: Complete
+        run: echo "✅ Scheduled task completed successfully!"

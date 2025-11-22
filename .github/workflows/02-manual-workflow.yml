@@ -1,0 +1,48 @@
+name: 02 - Manual Workflow Dispatch
+
+# This workflow demonstrates manual triggering with inputs
+# Can be triggered manually from the Actions tab
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      log-level:
+        description: 'Log level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+          - debug
+          - info
+          - warning
+          - error
+      custom-message:
+        description: 'Custom message to display'
+        required: false
+        default: 'Hello from GitHub Actions!'
+
+jobs:
+  manual-job:
+    name: Manual Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print inputs
+        run: |
+          echo "🚀 Deploying to: ${{ github.event.inputs.environment }}"
+          echo "📊 Log level: ${{ github.event.inputs.log-level }}"
+          echo "💬 Custom message: ${{ github.event.inputs.custom-message }}"
+
+      - name: Simulate deployment
+        run: |
+          echo "Deploying application..."
+          sleep 2
+          echo "✅ Deployment completed!"

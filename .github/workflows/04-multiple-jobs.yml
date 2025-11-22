@@ -1,0 +1,78 @@
+name: 04 - Multiple Jobs with Dependencies
+
+# This workflow demonstrates multiple jobs with dependencies
+on:
+  push:
+    branches: [ main, master, 'copilot/**' ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run linting
+        run: |
+          echo "🔍 Running linters..."
+          echo "Checking code style and formatting"
+          sleep 1
+          echo "✅ Linting passed!"
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint  # This job runs after 'lint' completes
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run unit tests
+        run: |
+          echo "🧪 Running unit tests..."
+          sleep 2
+          echo "✅ All tests passed!"
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: [lint, test]  # This job runs after both 'lint' and 'test' complete
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          echo "🔨 Building application..."
+          sleep 2
+          echo "✅ Build successful!"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: README.md
+          retention-days: 7
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build  # This job runs after 'build' completes
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+
+      - name: Deploy
+        run: |
+          echo "🚀 Deploying application..."
+          ls -la
+          sleep 2
+          echo "✅ Deployment complete!"

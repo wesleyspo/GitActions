@@ -1,0 +1,36 @@
+name: 01 - Basic CI Workflow
+
+# This workflow demonstrates a basic CI pipeline
+# Triggers: Push to main/master branch and pull requests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Print environment info
+        run: |
+          echo "Running on: ${{ runner.os }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Repository: ${{ github.repository }}"
+          node --version
+          npm --version
+
+      - name: Run a simple test
+        run: |
+          echo "✅ Build completed successfully!"
+          echo "This is where you would run your tests"
