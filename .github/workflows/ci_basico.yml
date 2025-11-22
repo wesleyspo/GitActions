@@ -1,5 +1,7 @@
 name: Meu Primeiro Workflow
 on: [push, pull_request]
+  branxches:
+    - master
 jobs:
   build:
     runs-on: ubuntu-latest
